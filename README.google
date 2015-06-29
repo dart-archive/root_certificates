@@ -1,0 +1,36 @@
+Name: Root certificates for trusted CAs
+Short Name: root_certificates
+URL: https://github.com/dart-lang/root_certificates
+Version: 0.1
+Date: June 29, 2015
+License: MPL/2.0, https://www.mozilla.org/MPL/2.0/
+
+Description:
+This directory contains the root CA certificates chosen to be trusted by
+Mozilla's NSS library, reformatted into an array in C source code, to be
+used by the default SecurityContext obect in Dart's dart:io library for
+secure networking (TLS, SSL).
+
+The certificates are fetched from Mozilla with the command line
+
+curl https://hg.mozilla.org/mozilla-central/raw-file/tip/security/nss/lib/ckfw/builtins/certdata.txt -o certdata.txt
+
+and then a derived file, with the certificates in PEM format, is created by
+running the utility at https://github.com/agl/extract-nss-root-certs:
+
+go run convert_mozilla_certdata.go > certdata.pem
+
+Note that this utility produces a warning about one certificate with a negative
+serial number.  This is expected.
+
+Comments are stripped from this file, to decrease the size of the string
+that will be compiled into the Dart executable:
+
+sed '/^#/d' ./certdata.pem > ./certdata.stripped
+
+The stripped file is converted to a C character array with the xxd utility:
+
+xxd -i certdata.stripped > certdata.cc
+
+And finally the name of the array is changed to root_certificates and the
+MPL copyright header is added back to the file, creating root_certificates.cc.
