@@ -6,6 +6,11 @@
  * fetched June 29, 2015, and converted to PEM format and to a C char array.
  */
 
+#if !defined(DART_IO_SECURE_SOCKET_DISABLED)
+
+#include "platform/globals.h"
+#if !defined(TARGET_OS_MACOS) && !defined(TARGET_OS_ANDROID)
+
 namespace dart {
 namespace bin {
 
@@ -20620,3 +20625,7 @@ unsigned int root_certificates_pem_length = 247225;
 
 }  // namespace bin
 }  // namespace dart
+
+#endif  // !defined(TARGET_OS_MACOS) && !defined(TARGET_OS_ANDROID)
+
+#endif  // !defined(DART_IO_SECURE_SOCKET_DISABLED)
