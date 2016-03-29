@@ -6,7 +6,7 @@
  * fetched June 29, 2015, and converted to PEM format and to a C char array.
  */
 
-#if !defined(DART_IO_SECURE_SOCKET_DISABLED)
+#if !defined(DART_IO_DISABLED) && !defined(DART_IO_SECURE_SOCKET_DISABLED)
 
 #include "platform/globals.h"
 #if !defined(TARGET_OS_MACOS) && !defined(TARGET_OS_ANDROID)
@@ -20628,4 +20628,5 @@ unsigned int root_certificates_pem_length = 247225;
 
 #endif  // !defined(TARGET_OS_MACOS) && !defined(TARGET_OS_ANDROID)
 
-#endif  // !defined(DART_IO_SECURE_SOCKET_DISABLED)
+#endif  // !defined(DART_IO_DISABLED) &&
+        // !defined(DART_IO_SECURE_SOCKET_DISABLED)
